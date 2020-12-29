@@ -1,6 +1,9 @@
 import axios from "axios";
 export const READ_EVENTS = "READ_EVENTS";
+export const READ_EVENT = "READ_EVENT";
 export const CREATE_EVENTS = "CREATE_EVENTS";
+export const DELETE_EVENTS = "DELETE_EVENTS";
+export const UPDATE_EVENT = "UPDATE_EVENT";
 
 const ROOT_URL = "https://udemy-utils.herokuapp.com/api/v1";
 const QUERYSTRING = "?token=token123";
@@ -16,5 +19,32 @@ export const postEvent = (value) => async (dispatch) => {
 	dispatch({
 		type: CREATE_EVENTS,
 		response,
+	});
+};
+
+export const getEvent = (id) => async (dispatch) => {
+	const response = await axios.get(`${ROOT_URL}/events/${id}${QUERYSTRING}`);
+	dispatch({
+		type: READ_EVENT,
+		response,
+	});
+};
+
+export const putEvent = (values) => async (dispatch) => {
+	const response = await axios.put(
+		`${ROOT_URL}/events/${values.id}${QUERYSTRING}`,
+		values
+	);
+	dispatch({
+		type: UPDATE_EVENT,
+		response,
+	});
+};
+
+export const deleteEvent = (id) => async (dispatch) => {
+	const response = await axios.delete(`${ROOT_URL}/events/${id}${QUERYSTRING}`);
+	dispatch({
+		type: DELETE_EVENTS,
+		id,
 	});
 };
